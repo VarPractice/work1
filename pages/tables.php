@@ -6,7 +6,35 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Customized Metric Stats</h1>
+                    <div class="form-group">
+                            <div id="sts_frm_msg" style="display: none" class="alert alert-danger">I'm wrong!</div>
+                    </div>
                 </div>
+                <!-- /.col-lg-12 -->
+                <div class="sts-filter col-lg-12">
+                    <div class="col-lg-3" >
+                        <div class="form-group">
+                            <select id="set-projects" class="form-control" data-toggle="tooltip" title="Select your project">
+                                <option value="">Select your Project</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">    
+                            <input id="team-size" data-toggle="tooltip" title="Enter Team size" class="form-control" placeholder="Enter Team size" type="number" min=0>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">    
+                            <input id="sprint-end-date" data-toggle="tooltip" title="Sprint End date" class="form-control" type="date">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">    
+                            <input id="project-poc" data-toggle="tooltip" title="Project point of contact" class="form-control" placeholder="Emp Id's with coma delimiter">
+                        </div>
+                    </div>
+                </div>  
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
@@ -23,6 +51,7 @@
                                     <!-- <li><a href="#" onClick ="$('#dataTables-example').tableExport({type:'pdf',escape:'false'});">PDF</a></li> -->
                                     <li><a href="#" onClick ="$('#dataTables-example').tableExport({type:'excel',escape:'false'});">Excell</a></li>
                                 </ul>
+                                <button class="btn btn-default" onclick="">Filter results</button>
                             </div>
                         </div>
                         <!-- /.panel-heading -->
