@@ -306,12 +306,22 @@
                         <li>
                             <a href="#"><i class="fa fa-eye fa-fw"></i> Quick Check<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
+<?php
+    if(isset($_SESSION["user_role"]) && $_SESSION["user_role"]<3) //Role < 3 are SA & M
+    {
+?>
                                 <li>
+                                    <a href="user_management.php">Manage users</a>
+                                </li>
+<?php
+    }
+?>
+                                <!-- <li>
                                     <a href="panels-wells.php">Sticky Notes</a>
                                 </li>
                                 <li>
                                     <a href="notifications.php">Notifications</a>
-                                </li>
+                                </li> -->
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>

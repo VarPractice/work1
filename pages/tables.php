@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
-                <div class="sts-filter col-lg-12">
+                <div style="display: none" class="sts-filter col-lg-12">
                     <div class="col-lg-3" >
                         <div class="form-group">
                             <select id="set-projects" class="form-control" data-toggle="tooltip" title="Select your project">
@@ -51,7 +51,7 @@
                                     <!-- <li><a href="#" onClick ="$('#dataTables-example').tableExport({type:'pdf',escape:'false'});">PDF</a></li> -->
                                     <li><a href="#" onClick ="$('#dataTables-example').tableExport({type:'excel',escape:'false'});">Excell</a></li>
                                 </ul>
-                                <button class="btn btn-default" onclick="">Filter results</button>
+                                <button class="btn btn-default" id="fltr-tgl-btn">Filter results</button>
                             </div>
                         </div>
                         <!-- /.panel-heading -->
@@ -137,6 +137,15 @@
     <script type="text/javascript" src="jspdf/libs/sprintf.js" ></script>
     <script type="text/javascript" src="jspdf/jspdf.js" ></script>
     <script type="text/javascript" src="jspdf/libs/base64.js" ></script>
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+        $("#fltr-tgl-btn").click(function()
+        {
+            $(".sts-filter").toggle();
+        });
+    });
+</script>
 <?php
     require_once("includes/footer.php");
 ?>

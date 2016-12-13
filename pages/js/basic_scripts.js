@@ -1,4 +1,3 @@
-
 /************************************************* Sign in Function *************************************/
 function sign_in()
 {
@@ -36,7 +35,7 @@ function sign_in()
 				}
 				else
 				{
-					alert("sorry inavlid id or password, Please try again!");
+					alert("sorry invalid id or password, Please try again!");
 					document.getElementById("submit-btn").innerHTML="Login";
 				}
 				

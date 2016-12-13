@@ -1,3 +1,4 @@
+
 <?php
 	if (session_status() == PHP_SESSION_NONE) 
 	{
@@ -89,6 +90,32 @@
     	catch (Exception $e) 
     	{
 			echo "Exception_getProjects";
+		}
+	}
+	// ********************** This function Returns All the employees under given supervisor *******************//
+	function getEmpUnderSup($sup_id, $con)
+	{
+		try 
+		{
+			// Retrieving current Employees projects
+			$res=exeQuery("select `projects` from `dashboard_users` where `emp_id`='$sup_id'",$con);
+			$row = $res->fetch_assoc(); // As we alaways get only one row result set, no need of looping statements.
+			$prj_ids=substr($row['projects'], 0, -1); // This removes the Coma(,) presented at the end of result
+			$sup_projects=(explode(",",$prj_ids));
+			// Preapring query string to retrieve all the users under current supervisor
+			$query_strng="select * from `dashboard_users` a WHERE `emp_id`!='$sup_id' && (0";
+			foreach($sup_projects as $p_id)
+			{
+				$query_strng.="||find_in_set('$p_id',a.projects)";
+			}
+			$query_strng.=")";// closing the paranthesis to complete the syntax
+	
+			// Retreiving all employees under logged in supervisor
+			return exeQuery($query_strng,$con);
+		}
+    	catch (Exception $e) 
+    	{
+			echo "Exception_getEmpUnderSup";
 		}
 	}
 ?>
