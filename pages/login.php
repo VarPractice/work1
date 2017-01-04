@@ -28,7 +28,7 @@
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom JS Scripts -->
-    <script src="js/basic_scripts.js"></script>
+    <script src="js/login_basic_scripts.js"></script>
 
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

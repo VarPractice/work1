@@ -11,13 +11,15 @@ function setEmpProjects()
   		{
 			// code for IE6, IE5
   			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  		}		
+  		}
 		xmlhttp.onreadystatechange=function()
   		{
 			
   			if (xmlhttp.readyState==4 && xmlhttp.status==200)
     		{
-    			var x=JSON.parse(xmlhttp.responseText);
+    			/*var x=xmlhttp.responseText;
+          var x=JSON.parse(x);*/
+          var x=JSON.parse(xmlhttp.responseText);
     			var projects="";
 				for(var i=0; i<x.length;i++)
 				{
@@ -26,7 +28,7 @@ function setEmpProjects()
 				document.getElementById("set-projects").innerHTML +=projects;
 			}			
 		}
-		xmlhttp.open("POST","includes/get_user_projects.php",true);
+		xmlhttp.open("POST","includes/get_user_projects.php?for=emp",true);
 		xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 		xmlhttp.send();
 }
@@ -100,7 +102,6 @@ function log_weekly_status()
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.send(post_data);
 }
-
 //***************************************** JQUERY event functions ************************//
 $(document).ready(function()
 {

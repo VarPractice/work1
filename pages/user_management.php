@@ -1,7 +1,8 @@
 <?php
 	require_once("includes/executers.php");
-	// Catching Register data
-	if(!isset($_SESSION["user_auth_id"]) || !isset($_SESSION["user_role"]))
+	// Verifying whether requested user is logged in or not & whether he is authorized
+	// $_SESSION["user_role"]>2 represents validating whether logged in user is Team leader/+
+	if(!isset($_SESSION["user_auth_id"]) || !isset($_SESSION["user_role"]) || $_SESSION["user_role"]>2)
     {
         exit("You are not a authorized user!");
     }
@@ -13,7 +14,7 @@
             <div class="col-lg-12">
                 <h1 class="page-header">Employee management</h1>
                 <div class="form-group">
-                    <div id="sts_frm_msg" style="display: none" class="alert alert-danger">I'm wrong!</div>
+                    <div id="emp_mngmt_msg" style="display: none" class="alert alert-danger">I'm wrong!</div>
                 </div>
             </div>
             <!-- /.col-lg-12 -->
@@ -40,9 +41,13 @@
                                         </div>";
 	// 	Connecting To db
 	$con=create_sqlConnection();
-	$res=getEmpUnderSup($_SESSION["user_auth_id"], $con);
+	$res=getEmpUnderSup($_SESSION["user_auth_id"], $_SESSION["user_role"],$con);
 	while ($row = $res->fetch_assoc()) 
 	{
+		// Getting projects of employee that are under Loggedin TL's Supervison
+		// 			below function returns an array(k,v)
+		$com_prjs=getCommonProjects($row['emp_id'], $_SESSION["user_auth_id"],$con);
+		// Printing Employee data in panels
 		echo $panel_open.
 				$panel_head_open.
 					"Id: ".$row['emp_id'].", Name: ".$row['First Name']." ".$row['Last Name'].

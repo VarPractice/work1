@@ -12,21 +12,11 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Customized Metric Stats</h1>
                     <div class="form-group">
-                            <div id="sts_fltr_msg" style="display: none;" class="alert alert-danger"></div>
+                            <div id="sts_fltr_msg" style="display: none" class="alert alert-danger">I'm wrong!</div>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
                 <div style="display: block;" class="sts-filter col-lg-12">
-                    <div class="col-lg-3" >
-                        <div class="form-group">
-                            <input id="report-strt-dt" data-toggle="tooltip" title="Week Start date mm/dd//yyyy" class="form-control" type="date" placeholder="mm/dd//yyyy">
-                        </div>
-                    </div>
-                    <div class="col-lg-3" >
-                        <div class="form-group">
-                            <input id="report-end-dt" data-toggle="tooltip" title="Week End date mm/dd//yyyy" class="form-control" type="date" placeholder="mm/dd//yyyy">
-                        </div>
-                    </div>
                     <div class="col-lg-2" >
                         <div class="form-group">
                             <select id="set-projects" class="form-control" data-toggle="tooltip" title="Select your project" multiple="multiple">
@@ -52,7 +42,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="form-group">    
                             <button id="sts-fltr-srch" type="button" class="btn btn-default">Search <i class="fa fa-search"></i> </button>
                         </div>
@@ -72,14 +62,14 @@
                                 <span class="caret"></span></button>
                                 <ul class="dropdown-menu">
                                     <!-- <li><a href="#" onClick ="$('#dataTables-example').tableExport({type:'pdf',escape:'false'});">PDF</a></li> -->
-                                    <li><a href="#" onClick ="$('#prj-sts-reports-tbl').tableExport({type:'excel',escape:'false'});">Excell</a></li>
+                                    <li><a href="#" onClick ="$('#dataTables-example').tableExport({type:'excel',escape:'false'});">Excell</a></li>
                                 </ul>
                                 <button class="btn btn-default" id="fltr-tgl-btn">Filter results</button>
                             </div>
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body" id="sts-table-panel" style="overflow-x: scroll;">
-                            <table width="100%" class="table table-striped table-bordered table-hover" id="prj-sts-reports-tbl" style="position:relative">
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
                                         <th>Week</th>
@@ -111,8 +101,7 @@
                                             while ($row = $res->fetch_assoc()) 
                                             {   
                                                 //  Getting Date of report logged
-                                                $raw_week=$row['for week'];
-                                                $week_year=explode(",",$raw_week);
+                                                $week_year=explode(",",$row['for week']);
                                                 $year=$week_year[1];
                                                 $week=$week_year[0];
                                                 //Returns the date of monday in week
@@ -123,7 +112,7 @@
 
                                                 // printing data to table
                                                 echo "<tr class='gradeX ".($i%2==0 ? "odd" : "even")."' >
-                                                <td value='".$raw_week."'>".$from." to ".$to."</td>
+                                                <td>".$from." to ".$to."</td>
                                                 <td>".getProjectName($row['project id'], $con)."</td>
                                                 <td>".$row['point of contact']."</td>
                                                 <td>".$row['team_size']."</td>
@@ -161,12 +150,8 @@
     <script type="text/javascript" src="jspdf/libs/sprintf.js" ></script>
     <script type="text/javascript" src="jspdf/jspdf.js" ></script>
     <script type="text/javascript" src="jspdf/libs/base64.js" ></script>
-    <!-- DataTables JavaScript -->
-    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <!-- Scripts required for this page -->
     <script type="text/javascript" src="js/table_scripts.js" ></script>
-
 <?php
     require_once("includes/footer.php");
 ?>

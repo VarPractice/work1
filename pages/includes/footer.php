@@ -9,12 +9,14 @@
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
     <!-- DataTables JavaScript -->
-    <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
-    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script> -->
+    
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
+    <!-- Script to initiate Tooletip functionality -->
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip(); 
@@ -23,10 +25,18 @@
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         $('#dataTables-example').DataTable({
             responsive: true
         });
+    });*/
+    $(document).ready(function() 
+    {
+        //$('#prj-sts-reports-tbl').DataTable();
+        function sayHello()
+        {
+            alert("Hello");
+        }
     });
     </script>
 

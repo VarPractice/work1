@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="col-lg-3">
                                             <div class="form-group">    
-                                                <input id="sprint-end-date" data-toggle="tooltip" title="Sprint End date" class="form-control" type="date">
+                                                <input id="sprint-end-date" data-toggle="tooltip" title="Sprint End date mm/dd//yyyy" class="form-control" type="date" placeholder="mm/dd//yyyy">
                                             </div>
                                         </div>
                                         <div class="col-lg-3">
@@ -63,22 +63,22 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">    
-                                                <textarea id="cur-work" data-toggle="tooltip" title="current week work status" class="form-control" rows="6" >Your current week work status...</textarea>
+                                                <textarea id="cur-work" data-toggle="tooltip" title="Current week work" class="form-control" placeholder="Your current week work status..." rows="6" ></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group"> 
-                                                <textarea id="future-work" data-toggle="tooltip" title="Project Quality" class="form-control" rows="6" >Your next week Expected work...</textarea>
+                                                <textarea id="future-work" data-toggle="tooltip" title="Next week expected work" class="form-control" placeholder="Your next week Expected work..." rows="6" ></textarea>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <select id="prj-chlng" class="form-control" data-toggle="tooltip" title="Select your project">
+                                                <select id="prj-chlng" class="form-control" data-toggle="tooltip" title="Any challenge in project">
                                                 <option value="">Challenges in project</option>
                                                 <option value="yes">Yes</option>
                                                 <option value="no">No</option>
                                                 </select>
-                                                <textarea id="prj-chlng-desc" data-toggle="tooltip" title="Explain in detail" class="form-control" rows="4" disabled="disabled">Explain in detail...</textarea>
+                                                <textarea id="prj-chlng-desc" data-toggle="tooltip" title="Explain in detail" class="form-control" placeholder="Explain in detail..." rows="4" disabled="disabled"></textarea>
                                             </div>
                                         </div>
                                         </div>
@@ -95,7 +95,7 @@
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="form-group input-group">    
-                                                 <input id="prj-impact" data-toggle="tooltip" title="Risk Impact on Schedules" class="form-control" type="number" max="100" min="0" placeholder="Impact">
+                                                 <input id="prj-impact" data-toggle="tooltip" title="Risk Impact on Schedules, if any" class="form-control" type="number" max="100" min="0" placeholder="Impact">
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -114,9 +114,9 @@
                                         <div class="col-lg-3">
                                             <div class="form-group">    
                                                  <select id="ram-up-dwn" class="form-control" data-toggle="tooltip" title="Project Ramp up/down">
-                                                <option>Ram up/down</option>
-                                                <option>Yes</option>
-                                                <option>No</option>
+                                                <option value="NA">Ram up/down</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
                                                 </select>
                                             </div>
                                         </div>
