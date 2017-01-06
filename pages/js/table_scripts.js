@@ -13,7 +13,7 @@ $(document).ready(function()
         includeSelectAllOption: true,
         enableFiltering:true,
         numberDisplayed: 1,
-        nonSelectedText :'Select columns'    
+        nonSelectedText :'Hide columns'    
     });
     // This function scrolls horizontally on mouce move
     var cntWd, sldWd, tb;
@@ -30,108 +30,79 @@ $(document).ready(function()
     /***********************************************************/
     // Calling Datatable constructor
     var dataTable=$('#prj-sts-reports-tbl').DataTable();
-    // This function filters the Reports in reports table
-    $("#sts-fltr-srch").click(function()
+    /***********************************************************/
+    var min, max; // Will be assigned in search function & will be reset at end of function
+    // Function to Filter Date column in the Reports table
+    $.fn.dataTable.ext.search.push( // This method executes when dataTable.draw() is called
+        function( settings, data, dataIndex )
+        {
+            //  This function actually matches the number range to filter data
+            //  min & max are numbers genarated based the selected filter dates
+            var rp_dateNum = parseFloat( data[0] ) || 0; // use data for the date column
+            if ( ( isNaN( min ) && isNaN( max ) ) ||
+                ( isNaN( min ) && rp_dateNum <= max ) ||
+                ( min <= rp_dateNum   && isNaN( max ) ) ||
+                ( min <= rp_dateNum   && rp_dateNum <= max ) )
+            {
+                return true; // Display the record
+            }
+            return false; // Hide the record
+        }
+    );
+    //  This function caliculates the search number for given date
+    function getSrchDateNum(rp_date)
     {
-        // Declare variables 
-        var table, tr, td_prj, td_tm, i,j=0,time_fltr=false,disp_week,disp_week_count;
-        table = document.getElementById("prj-sts-reports-tbl");
-        tr = table.getElementsByTagName("tr");
-        // Getting total no.of columns in table.
-        var total_cols=$("#display-cols option").length
-        // Getting data from Filters.
-        var cols_to_display=$("#display-cols").val();
-        var prjs_selected=$("#set-projects").val();
-        var rp_strt_dt=$("#report-strt-dt").val();
-        var rp_end_dt=$("#report-end-dt").val();
-        // Clearing previous Filter results
-        $("tr").show();
-        $("tr td, tr th").show();
-        // Loop through all table rows, and hide those who don't match the search query in Week column
-        if ((rp_strt_dt=="" && rp_end_dt!="") || (rp_strt_dt!="" && rp_end_dt=="")) 
+        if(rp_date=='')
+        {
+            return '';
+        }
+        try
+        {
+            var rp_year,rp_wk;
+            // Extracting Year from Date
+            rp_year=rp_date.substring(0,4); //yyyy-mm-dd
+            // Converting String to dates
+            rp_date=new Date(rp_date);
+            // Getting Week number from dates
+            rp_wk=rp_date.getWeek();
+            return parseInt(rp_wk)+parseInt(rp_year);
+        }
+        catch(err)
         {
             $("#sts_fltr_msg").show();
-            $("#sts_fltr_msg").text("Either Enter both Week Start and End dates or leave both blank");
-            return false;
+            $("#sts_fltr_msg").text("Unable to process the entered date, unreliable results displayed");
+            return '';
         }
-        if(rp_strt_dt!="" && rp_end_dt!="")
-        {
-            var strt_yr, end_yr, strt_wk, end_wk, st_wk_cnt, end_wk_cnt;
-            strt_yr=rp_strt_dt.substring(0,4); //yyyy-mm-dd
-            end_yr=rp_end_dt.substring(0,4); //yyyy-mm-dd
-            rp_strt_dt=new Date(rp_strt_dt);
-            rp_end_dt=new Date(rp_end_dt);
-            // Validating selected date range
-            if (rp_strt_dt > rp_end_dt) 
-            {
-                $("#sts_fltr_msg").show();
-                $("#sts_fltr_msg").text("Either Enter both Week Start and End dates or leave both blank");
-                return false;
-            }
-            strt_wk=rp_strt_dt.getWeek();
-            end_wk=rp_end_dt.getWeek();
-            st_wk_cnt=parseInt(strt_wk)+parseInt(strt_yr);
-            end_wk_cnt=parseInt(end_wk)+parseInt(end_yr);
-            time_fltr=true;
-        }
-        // Loop through all table rows, and hide those who don't match the search query in Projects column
-        if (prjs_selected.length!=0 || time_fltr)
-        for (i = 0; i < tr.length; i++)
-        {
-            td_prj = tr[i].getElementsByTagName("td")[1];
-            td_tm = tr[i].getElementsByTagName("td")[0];
-            if (time_fltr &&td_tm)
-            {
-                disp_week=td_tm.getAttribute("value").toUpperCase().trim().split(",");
-                disp_week_count=parseInt(disp_week[0])+parseInt(disp_week[1]);
-                
-                if (st_wk_cnt>disp_week_count || disp_week_count>end_wk_cnt)
-                {
-                    tr[i].style.display = "none";
-                }
-            }
-            if (prjs_selected.length!=0 && td_prj)
-            {
-                if (!isPrjInSlctdLst(td_prj.innerHTML,prjs_selected)) 
-                {
-                    tr[i].style.display = "none";
-                }
-            } 
-        }
-        // Loop throw all table columns and display only selected
-        if (cols_to_display.length!=0) 
-        {
-            for (i = 1; i < total_cols+1; i++) 
-            {
-                if(cols_to_display[j]==i)
-                {
-                    $("tr *:nth-child("+i+")").show();
-                    j++;
-                }
-                else
-                {
-                    $("tr *:nth-child("+i+")").hide();
-                }     
-            }
-        }
-        // Resetting error message
+    }
+    //Implementing DataTable API to search
+    $("#sts-fltr-srch").click(function()
+    {
+        //  Clearing the Error messages
+        //  Resetting error message
         $("#sts_fltr_msg").text("");
         $("#sts_fltr_msg").hide();
+        //  Reading data from Search fields
+        var cols_to_display=$("#display-cols").val().map(Number);// returns an int array
+        var prjs_selected=$("#set-projects").val().toString().replace(/,/g, "|"); //string with '|' delimiter
+        var rp_strt_dt=$("#report-strt-dt").val();
+        var rp_end_dt=$("#report-end-dt").val();
+        //  Filtering Display columns
+        dataTable.columns().visible(true); //clearing previous Column filter
+        dataTable.columns(cols_to_display.length>0 ? cols_to_display : '.nothing').visible(false);
+        //  Filtering Projects
+        dataTable.column(1).search(prjs_selected ? prjs_selected : '', true, false );
+        //  Filtering Report dates
+        var rp_strt_dt,rp_end_dt;
+        rp_strt_dt=$("#report-strt-dt").val();
+        rp_end_dt=$("#report-end-dt").val();
+        //  Assigning min & max variables
+        min=parseInt(getSrchDateNum(rp_strt_dt));
+        max=parseInt(getSrchDateNum(rp_end_dt));
+        //  Displaying the search results.
         dataTable.draw();
+        /********************* Last things last ************************/
+        //  resetting min & max values
+        min='';
+        max='';
     });
-    // This function tells whether the given Project [1st Arg] is in lis of projects given [2nd Arg]
-    function isPrjInSlctdLst(givPrj,prjs_lst)
-    {
-        var found=false;
-        givPrj=givPrj.toUpperCase().trim();
-        for(var i=0; i<prjs_lst.length;i++)
-        {
-            if (prjs_lst[i].toUpperCase().trim()==givPrj)
-            {
-                found=true;
-                break;
-            }
-        }
-        return found;
-    }
 });

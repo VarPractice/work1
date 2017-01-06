@@ -22,24 +22,6 @@
             $('[data-toggle="tooltip"]').tooltip(); 
         });
     </script>
-
-    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
-    <script>
-    /*$(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });*/
-    $(document).ready(function() 
-    {
-        //$('#prj-sts-reports-tbl').DataTable();
-        function sayHello()
-        {
-            alert("Hello");
-        }
-    });
-    </script>
-
 </body>
 
 </html>

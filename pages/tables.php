@@ -19,12 +19,12 @@
                 <div style="display: block;" class="sts-filter col-lg-12">
                     <div class="col-lg-3" >
                         <div class="form-group">
-                            <input id="report-strt-dt" data-toggle="tooltip" title="Week Start date mm/dd//yyyy" class="form-control" type="date" placeholder="mm/dd//yyyy">
+                            <input id="report-strt-dt" data-toggle="tooltip" title="Week Start date yyyy/mm/dd" class="form-control" type="date" placeholder="yyyy/mm/dd">
                         </div>
                     </div>
                     <div class="col-lg-3" >
                         <div class="form-group">
-                            <input id="report-end-dt" data-toggle="tooltip" title="Week End date mm/dd//yyyy" class="form-control" type="date" placeholder="mm/dd//yyyy">
+                            <input id="report-end-dt" data-toggle="tooltip" title="Week End date yyyy/mm/dd" class="form-control" type="date" placeholder="yyyy/mm/dd">
                         </div>
                     </div>
                     <div class="col-lg-2" >
@@ -36,25 +36,25 @@
                     <div class="col-lg-2" >
                         <div class="form-group">
                             <select id="display-cols" class="form-control" data-toggle="tooltip" title="Columns to display" multiple="multiple">
-                            <option value="1">Week</option>
-                            <option value="2">Project</option>
-                            <option value="3">POC(s)</option>
-                            <option value="4">Team Size</option>
-                            <option value="5">Sprint End date</option>
-                            <option value="6">Current Work</option>
-                            <option value="7">Future work</option>
-                            <option value="8">Challenges</option>
-                            <option value="9">Quality</option>
-                            <option value="10">Impact</option>
-                            <option value="11">Test execution</option>
-                            <option value="12">Test Design</option>
-                            <option value="13">Ramp up/down</option>
+                            <option value="0">Week</option>
+                            <option value="1">Project</option>
+                            <option value="2">POC(s)</option>
+                            <option value="3">Team Size</option>
+                            <option value="4">Sprint End date</option>
+                            <option value="5">Current Work</option>
+                            <option value="6">Future work</option>
+                            <option value="7">Challenges</option>
+                            <option value="8">Quality</option>
+                            <option value="9">Impact</option>
+                            <option value="10">Test execution</option>
+                            <option value="11">Test Design</option>
+                            <option value="12">Ramp up/down</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="form-group">    
-                            <button id="sts-fltr-srch" type="button" class="btn btn-default">Search <i class="fa fa-search"></i> </button>
+                            <button id="sts-fltr-srch" type="button" class="btn btn-primary">Search <i class="fa fa-search"></i> </button>
                         </div>
                     </div>
                 </div>  
@@ -115,6 +115,7 @@
                                                 $week_year=explode(",",$raw_week);
                                                 $year=$week_year[1];
                                                 $week=$week_year[0];
+                                                $srch_key=$year+$week;
                                                 //Returns the date of monday in week
                                                 $from = date("d", strtotime("{$year}-W{$week}-1"));
                                                 //Returns the date of Sunday in week 
@@ -123,7 +124,7 @@
 
                                                 // printing data to table
                                                 echo "<tr class='gradeX ".($i%2==0 ? "odd" : "even")."' >
-                                                <td value='".$raw_week."'>".$from." to ".$to."</td>
+                                                <td data-search='".$srch_key."'value='".$raw_week."'>".$from." to ".$to."</td>
                                                 <td>".getProjectName($row['project id'], $con)."</td>
                                                 <td>".$row['point of contact']."</td>
                                                 <td>".$row['team_size']."</td>
