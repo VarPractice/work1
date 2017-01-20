@@ -8,6 +8,7 @@
 	$con=create_sqlConnection();
 	// Executing Query to get login details
 	$res=exeQuery("select `password` from user_credentials where `emp id`='$uname'",$con);
+	// echo $res->num_rows;
 	if($res->num_rows > 0)
 	{
 		while($row = $res->fetch_assoc()) 

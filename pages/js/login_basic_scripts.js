@@ -31,7 +31,7 @@ function sign_in()
 				{
 					document.getElementById("login-form").reset();
 					document.getElementById("submit-btn").innerHTML="Login";
-					window.location="http://10.102.180.148/Maritz_dashboard/";
+					window.location="http://10.102.180.148:3/Maritz_dashboard/";
 				}
 				else
 				{

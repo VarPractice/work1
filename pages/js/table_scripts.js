@@ -58,14 +58,10 @@ $(document).ready(function()
         }
         try
         {
-            var rp_year,rp_wk;
-            // Extracting Year from Date
-            rp_year=rp_date.substring(0,4); //yyyy-mm-dd
-            // Converting String to dates
-            rp_date=new Date(rp_date);
-            // Getting Week number from dates
-            rp_wk=rp_date.getWeek();
-            return parseInt(rp_wk)+parseInt(rp_year);
+            var newDate=new Date(rp_date);
+            // Setting time of day to start of the specified date
+            newDate.setHours(0, 0, 0, 0);
+            return Math.round(newDate.getTime()/1000.0);
         }
         catch(err)
         {
@@ -86,6 +82,19 @@ $(document).ready(function()
         var prjs_selected=$("#set-projects").val().toString().replace(/,/g, "|"); //string with '|' delimiter
         var rp_strt_dt=$("#report-strt-dt").val();
         var rp_end_dt=$("#report-end-dt").val();
+        // Validating dates
+        if(rp_strt_dt.length!=0 && !validateDate(rp_strt_dt,'ymd'))
+        {
+            $("#sts_fltr_msg").show();
+            $("#sts_fltr_msg").text("Invalid Start date format. If you are using chrome use the date picker, other browsers: format Should be yyyy-mm-dd or yyyy/mm/dd");
+            return false;
+        }
+        if(rp_end_dt.length!=0 && !validateDate(rp_end_dt,'ymd'))
+        {
+            $("#sts_fltr_msg").show();
+            $("#sts_fltr_msg").text("Invalid End date format. If you are using chrome use the date picker, other browsers: format Should be yyyy-mm-dd or yyyy/mm/dd");
+            return false;
+        }
         //  Filtering Display columns
         dataTable.columns().visible(true); //clearing previous Column filter
         dataTable.columns(cols_to_display.length>0 ? cols_to_display : '.nothing').visible(false);

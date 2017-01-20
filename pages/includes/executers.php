@@ -4,7 +4,7 @@
     		session_start();
 	}
 	//	Database details
-	define("url", "http://10.102.180.148/Maritz_dashboard/");
+	define("url", "http://10.102.180.148:3/Maritz_dashboard/");
 	define('my_sql_host','localhost');
 	define('my_sql_unm','root');
 	define('my_sql_pwd','');
@@ -39,6 +39,35 @@
 		// mysqli_query($con,$query) or die("Unable to Query");
 		$res=$con->query($query) or die("Query Execution Failed.! ".$con->error);
 		return $res;
+	}
+	// **************** This function Returns Current week & year in {W,yyy} format***************//
+	function getCurWeekNYear()
+	{
+		// Setting variables for some required data
+		$cur_week_number=date("W");
+		$cur_week_day=date("D");
+		$cur_month=date("m");
+		$cur_year=date("Y");
+		// Updating Week number to for Weekly status log *** If the current day is monday the status should be stored as previous weeks status
+		// an employee is alowed to log his weekly status by Monday, so status logged on monday will be concidered as previous weeks
+		if($cur_week_day=="Mon")
+		{
+			$date = new DateTime(date('dmy'));
+			date_modify($date,"-1 days");
+			$cur_week_number = $date->format("W");
+		}
+		// Updating Year based on the week number & if month=Jan
+		if($cur_month==1 && $cur_week_number>50)
+		{
+			$cur_year--;
+		}
+		// Updating Year based on the week number & if month=Dec
+		if($cur_month==12 && $cur_week_number==1)
+		{
+			$cur_year++;
+		}
+		// Appending Current year to week number to process Reports date easily in future
+		return $cur_week_number.",".$cur_year;
 	}
 	// ********************** This function Returns project Name by it's Id *******************//
 	function getProjectName($prj_id, $con)
@@ -128,7 +157,7 @@
 			echo "Exception_getProjects";
 		}
 	}
-	// ********************** This function Returns All the employees under given supervisor *******************//
+	// ************* This function Returns All the employees under given supervisor ***************//
 	function getEmpUnderSup($sup_id, $role, $con)
 	{
 		try 
@@ -160,7 +189,41 @@
 		try 
 		{
 			 $res=exeQuery("select `projects` from `dashboard_users` where `emp_id` in ('$emp1','$emp2')",$con);
+			 /*** Under development*****/
 			 return "";
+		}
+		catch (Exception $e)
+		{
+			echo "Exception_getCommonProjects";
+		}
+	}
+	// ********This function Returns common projects of given employees *****//
+	function getPrjStatsOfWeek($prj_id,$week)
+	{
+		try 
+		{
+			$prjStats="";
+			$con=create_sqlConnection();
+			$res=exeQuery("select * from `project_maritz` where `for week` ='$week' and `project id`='$prj_id'",$con);
+			if($res->num_rows <= 0)
+			{
+				return json_encode($prjStats);
+			}
+			$row = $res->fetch_assoc(); // As we alaways get only one row result set, no need of looping statements.
+			$prjStats[0]['week']=$row['for week'];
+			$prjStats[0]['poc']=$row['point of contact'];
+			$prjStats[0]['tm_size']=$row['team_size'];
+			$prjStats[0]['sprnt_endDate']=$row['sprint_end_date'];
+			$prjStats[0]['cur_wrk']=$row['current work'];
+			$prjStats[0]['ftr_wrk']=$row['future work'];
+			$prjStats[0]['chlngs']=$row['challenges'];
+			$prjStats[0]['qlty']=$row['quality'];
+			$prjStats[0]['impact']=$row['impact'];
+			$prjStats[0]['execution']=$row['execution'];
+			$prjStats[0]['design']=$row['design'];
+			$prjStats[0]['rampdown']=$row['ramupdown'];
+
+			return json_encode($prjStats);
 		}
 		catch (Exception $e)
 		{

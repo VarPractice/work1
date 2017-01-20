@@ -35,6 +35,9 @@
     <!-- Morris Charts CSS -->
     <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
 
+    <!-- My Custom Styles CSS -->
+    <link href="css/my_custom_styles.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- jQuery -->
@@ -50,6 +53,11 @@
 </head>
 
 <body>
+<div id="page_load_fade" style="display: none;"></div>
+<div id="page_load_modal" style="display: none;">
+        <img id="loader" src="imgs/load.gif" class="page_load_ajax-loader">
+</div>
+
 <!-- Page container Starts -->
     <div id="wrapper">
 
