@@ -22,7 +22,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <form role="form">
+                                    <form id="lg-wkly-sts-frm" role="form">
                                     <div class="row">
                                         <div class="form-group">
                                             <div id="sts_frm_msg" style="display: none" class="alert alert-danger"></div>

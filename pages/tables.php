@@ -115,11 +115,12 @@
                                                 $week_year=explode(",",$raw_week);
                                                 $year=$week_year[1];
                                                 $week=$week_year[0];
-                                                $srch_key=$year+$week;
                                                 //Returns the date of monday in week
                                                 $from = date("d", strtotime("{$year}-W{$week}-1"));
                                                 //Returns the date of Sunday in week 
                                                 $to = date("d-M-y", strtotime("{$year}-W{$week}-7"));
+                                                // Calculating search data for report
+                                                $srch_key=(new DateTime($to, new DateTimeZone('Asia/Calcutta')))->format('U');
                                                 //  Getting name Project for which report logged for
 
                                                 // printing data to table

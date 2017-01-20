@@ -29,17 +29,8 @@
 	}
 	// Storing Employee Id from session
 	$emp_id=$_SESSION['user_auth_id'];
-	// Setting variables for some required data
-	$cur_week_number=date("W");
-	$cur_week_day=date("D");
-	$cur_year=date("Y");
-	// Updating Week number to for Weekly status log *** If the current day is monday the status should be stored as previous weeks status
-	if($cur_week_day=="Mon")
-	{
-		$cur_week_number--;
-	}
-	// Appending Current year to week number to get Reports date easily in future
-	$cur_week_number=$cur_week_number.",".$cur_year;
+	// Getting Current week & Year
+	$cur_week_number=getCurWeekNYear(); //returns week & year in {W,yyyy} format
 	// 	Connecting To db
 	$con=create_sqlConnection();
 	// Setting the query string

@@ -123,4 +123,66 @@ $(document).ready(function()
 		log_weekly_status();
 		$("#wkly-sts-sbmt").text("I'm done! Take my note");
 	});
+  $("#set-projects").change(function()
+  {
+        // Displaying Page load style
+        $("body").addClass("noScroll");
+        $("#page_load_fade").show();
+        $("#page_load_modal").show();
+        // loading projects status for the current week
+        var selectedPrj=$("#set-projects").val();
+        var xmlhttp;
+        if (window.XMLHttpRequest)
+        {
+          // code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+        }
+        else
+        {
+          // code for IE6, IE5
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange=function()
+        {
+      
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+          {
+            /*var x=xmlhttp.responseText;
+            var x=JSON.parse(x);*/
+            var x=JSON.parse(xmlhttp.responseText);
+            if(x.length>0)
+            {
+              $("#team-size").val(x[0]['tm_size']);
+              $("#sprint-end-date").val(x[0]['sprnt_endDate']);
+              $("#project-poc").val(x[0]['poc']);
+              $("#cur-work").val(x[0]['cur_wrk']);
+              $("#future-work").val(x[0]['ftr_wrk']);
+              if(x[0]['chlngs']!="")
+              {
+                $("#prj-chlng").val('yes');
+                $("#prj-chlng").change();
+                $("#prj-chlng-desc").val(x[0]['chlngs']);
+              }
+              $("#prj-qlty").val(x[0]['qlty']);
+              $("#prj-impact").val(x[0]['impact']);
+              $("#tst-exe").val(x[0]['execution']);
+              $("#tst-dsgn").val(x[0]['design']);
+              $("#ram-up-dwn").val(x[0]['rampdown']);
+            }
+            else
+            {
+              document.getElementById("lg-wkly-sts-frm").reset();
+              $("#prj-chlng").change();
+              $("#set-projects").val(selectedPrj);
+            }            
+          }     
+        }
+        xmlhttp.open("POST","includes/getCurWeekPrjStatus.php?prj_id="+selectedPrj,true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send();
+        // Hiding the page load icon
+        $("body").removeClass("noScroll");
+        $("#page_load_modal").hide();
+        $("#page_load_fade").hide();
+    });
 });
